@@ -16,9 +16,6 @@
 - feat/intake (L) — INBOX → TODO decomposition via driver LLM call, provenance `from:`
   from: p001,p002
   accept: vague 1-line prompt yields 2-5 sized cards each citing inbox id
-- feat/auditor (M) — board vs git/tests reconciliation pass
-  from: p002
-  accept: claimed-done w/o evidence reopened; merged-without-card closed
 - chore/cli-init (S) — salarymen init: copy template + render yml + seed board
   from: p001
   accept: fresh dir → runnable app + board in <60s
