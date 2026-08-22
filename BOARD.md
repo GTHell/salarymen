@@ -16,9 +16,6 @@
 - feat/intake (L) — INBOX → TODO decomposition via driver LLM call, provenance `from:`
   from: p001,p002
   accept: vague 1-line prompt yields 2-5 sized cards each citing inbox id
-- feat/builder-tick (L) — pick top TODO, invoke driver, commit, move card
-  from: p001
-  accept: one tick = one card; tsc/tests gate before DONE
 - feat/critic (L) — dev-server probe + screenshot + optional vision verdict
   from: p002
   accept: DONE requires evidence block; missing evidence → reopen
