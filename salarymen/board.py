@@ -98,6 +98,12 @@ class Board:
         self.cards["INBOX"].append(c)
         return c
 
+    def add_todo(self, card_id: str, size: str = "M", title: str = "",
+                 **meta) -> Card:
+        c = Card(id=card_id, size=size, title=title, meta=meta)
+        self.cards["TODO"].append(c)
+        return c
+
     def move(self, card_id: str, to_section: str, **meta_updates) -> Card:
         for sec in SECTIONS:
             for i, c in enumerate(self.cards[sec]):
