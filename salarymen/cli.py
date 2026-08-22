@@ -62,11 +62,22 @@ def cmd_init(args) -> int:
         print(f"error: {target} exists and is not empty", file=sys.stderr)
         return 1
     target.mkdir(parents=True, exist_ok=True)
-    template = Path(__file__).resolve().parent.parent / "templates" / "next-tailwind-sqlite"
+    cfg = load_config(target, cli_patches=args.patch or [])
+    template = Path(__file__).resolve().parent.parent / "templates" / cfg["stack"]["scaffold"]
     if template.exists():
-        shutil.copytree(template, target, dirs_exist_ok=True)
-    (target / "salaryman.yml").write_text(
-        YML_SEED.format(name=target.name), encoding="utf-8")
+        shutil.copytree(template, target, dirs_exist_ok=True,
+                        ignore=shutil.ignore_patterns("TEMPLATE.md", "node_modules"))
+        # render placeholders
+        for f in target.rglob("*"):
+            if f.is_file() and f.suffix in (".json", ".tsx", ".ts", ".md", ".html"):
+                txt = f.read_text(encoding="utf-8")
+                if "{{PROJECT_NAME}}" in txt:
+                    f.write_text(txt.replace("{{PROJECT_NAME}}", target.name), encoding="utf-8")
+    else:
+        print(f"warn: template '{cfg['stack']['scaffold']}' not found — config-only init", file=sys.stderr)
+    if not (target / "salaryman.yml").exists():
+        (target / "salaryman.yml").write_text(
+            YML_SEED.format(name=target.name), encoding="utf-8")
     board = target / "BOARD.md"
     if not board.exists():
         board.write_text(BOARD_SEED.format(name=target.name), encoding="utf-8")
@@ -134,7 +145,8 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="salarymen")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
-    p = sub.add_parser("init"); p.add_argument("dir"); p.set_defaults(fn=cmd_init)
+    p = sub.add_parser("init"); p.add_argument("dir")
+    p.add_argument("--patch", action="append", help="dotted.key=value config overrides"); p.set_defaults(fn=cmd_init)
     p = sub.add_parser("tick"); p.add_argument("lane", choices=["intake", "builder", "critic", "auditor"])
     p.add_argument("--url", help="live URL for critic probes"); p.set_defaults(fn=cmd_tick)
     sub.add_parser("status").set_defaults(fn=cmd_status)
