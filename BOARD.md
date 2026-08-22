@@ -16,9 +16,6 @@
 - feat/intake (L) — INBOX → TODO decomposition via driver LLM call, provenance `from:`
   from: p001,p002
   accept: vague 1-line prompt yields 2-5 sized cards each citing inbox id
-- feat/critic (L) — dev-server probe + screenshot + optional vision verdict
-  from: p002
-  accept: DONE requires evidence block; missing evidence → reopen
 - feat/auditor (M) — board vs git/tests reconciliation pass
   from: p002
   accept: claimed-done w/o evidence reopened; merged-without-card closed
