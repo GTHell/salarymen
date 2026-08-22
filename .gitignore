@@ -2,3 +2,4 @@ salarymen/__pycache__/
 salarymen/lanes/__pycache__/
 *.pyc
 salaryman.local.yml
+salaryman.egg-info/

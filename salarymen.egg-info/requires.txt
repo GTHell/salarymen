@@ -1,7 +1,0 @@
-pyyaml>=6.0
-
-[dev]
-pytest>=8.0
-
-[vision]
-playwright>=1.40
