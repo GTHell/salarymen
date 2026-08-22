@@ -129,6 +129,16 @@ def cmd_status(_) -> int:
     return 0
 
 
+def cmd_deploy(args) -> int:
+    from salarymen.deploy import deploy
+    res = deploy(Path.cwd(), prod=args.prod)
+    if res["ok"]:
+        print(f"🚀 live: {res.get('url', '(url in output above)')} ({res['secs']}s)")
+        return 0
+    print(f"deploy failed: {res.get('error')}", file=sys.stderr)
+    return 1
+
+
 def cmd_inbox(args) -> int:
     cfg = load_config(Path.cwd())
     bp = Path.cwd() / cfg["project"]["board"]
@@ -151,6 +161,9 @@ def main(argv=None) -> int:
     p.add_argument("--url", help="live URL for critic probes"); p.set_defaults(fn=cmd_tick)
     sub.add_parser("status").set_defaults(fn=cmd_status)
     p = sub.add_parser("inbox"); p.add_argument("text"); p.set_defaults(fn=cmd_inbox)
+    p = sub.add_parser("deploy")
+    p.add_argument("--prod", action="store_true", help="production deploy (default preview)")
+    p.set_defaults(fn=cmd_deploy)
 
     args = ap.parse_args(argv)
     try:

@@ -4,6 +4,7 @@ salarymen/__init__.py
 salarymen/board.py
 salarymen/cli.py
 salarymen/config.py
+salarymen/deploy.py
 salarymen/drivers.py
 salarymen.egg-info/PKG-INFO
 salarymen.egg-info/SOURCES.txt
