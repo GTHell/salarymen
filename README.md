@@ -1,0 +1,42 @@
+# salarymen 🧑‍💼
+
+**Self-hosted, open-source Lovable: hand a vague prompt to tireless AI salarymen, get a working product — then they keep improving it while you sleep.**
+
+You know how Claude Code / Codex are everywhere, but average devs still can't prompt like seniors? Salarymen fixes that. You don't prompt the system like an engineer — you talk to it like a client. The salarymen decompose your ask into a kanban board, scaffold from opinionated production-grade templates (never raw HTML/CSS), build it, verify it with screenshots and live probes attached to every card, and keep improving it on a schedule.
+
+## Two mechanisms
+
+### 1. Scaffold — minutes
+One-shot project creation from **opinionated, mature stacks**:
+
+- Ask for a landing page → Next.js + Tailwind + SQLite spins up, deploys to Vercel
+- Ask for "a shopify" → Laravel/Next full-stack template + db wired + auth scaffolded
+- Engine blocks are swappable later by prompting ("switch to Postgres") — the stack is a config layer, not hardcoded code
+
+### 2. The loop — hours → days → forever
+Cron-driven workers tick on schedule, one phase per tick:
+
+| Worker | Job | Gate |
+|---|---|---|
+| **intake** | vague prompts → decomposed kanban cards | every card cites the source message |
+| **builder** | picks top card, implements, self-verifies | `tsc` clean + tests green |
+| **critic** | live-probe + screenshot + vision-judge | evidence attached to card or FAIL |
+| **auditor** | reality-checks board vs git/tests | no card claims done without proof |
+
+**The board is the product**: plain markdown kanban (`BOARD.md`) you can read in any editor, sync to GitHub Projects, and diff. No more asking "what's the status" — the board is always true.
+
+## Why not Lovable / AutoGPT / Autogen?
+
+- **AutoGPT** gave autonomy without verification → hallucination loops
+- **Autogen** gave multi-agent chat without persistence or evidence
+- **Lovable** is closed, hosted, and priced per-message
+
+Salarymen = closed-loop with evidence, self-hosted, provider-agnostic. Every claimed pass must cite tool output. Agents lie; deterministic gates don't.
+
+## Status
+
+v0.1 design phase. See [docs/DESIGN.md](docs/DESIGN.md).
+
+## License
+
+MIT
