@@ -139,6 +139,17 @@ def cmd_deploy(args) -> int:
     return 1
 
 
+def cmd_docs(args) -> int:
+    from salarymen.features import backfill
+    cfg = load_config(Path.cwd())
+    written = backfill(Path.cwd() / cfg["project"]["board"],
+                       Path.cwd() / "docs" / "features", force=args.force)
+    for cid in written:
+        print(f"  ~ docs/features/{cid.replace('/', '-')}.md")
+    print(f"docs: {len(written)} file(s) written/updated")
+    return 0
+
+
 def cmd_inbox(args) -> int:
     cfg = load_config(Path.cwd())
     bp = Path.cwd() / cfg["project"]["board"]
@@ -161,6 +172,8 @@ def main(argv=None) -> int:
     p.add_argument("--url", help="live URL for critic probes"); p.set_defaults(fn=cmd_tick)
     sub.add_parser("status").set_defaults(fn=cmd_status)
     p = sub.add_parser("inbox"); p.add_argument("text"); p.set_defaults(fn=cmd_inbox)
+    p = sub.add_parser("docs"); p.add_argument("--force", action="store_true")
+    p.set_defaults(fn=cmd_docs)
     p = sub.add_parser("deploy")
     p.add_argument("--prod", action="store_true", help="production deploy (default preview)")
     p.set_defaults(fn=cmd_deploy)
