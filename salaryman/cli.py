@@ -129,7 +129,19 @@ def cmd_status(_) -> int:
     return 0
 
 
-def cmd_deploy(args) -> int:
+def cmd_serve_bot(args) -> int:
+    from salaryman.serve_bot import serve
+    import os
+    token = os.environ.get("TELEGRAM_BOT_TOKEN")
+    chat = os.environ.get("SALARYMAN_OWNER_CHAT_ID")
+    if not token or not chat:
+        print("error: TELEGRAM_BOT_TOKEN and SALARYMAN_OWNER_CHAT_ID required", file=sys.stderr)
+        return 1
+    serve(Path.cwd(), token, chat, poll_interval_s=args.interval)
+    return 0
+
+
+def cmd_docs(args) -> int:
     from salaryman.deploy import deploy
     res = deploy(Path.cwd(), prod=args.prod)
     if res["ok"]:
@@ -172,6 +184,8 @@ def main(argv=None) -> int:
     p.add_argument("--url", help="live URL for critic probes"); p.set_defaults(fn=cmd_tick)
     sub.add_parser("status").set_defaults(fn=cmd_status)
     p = sub.add_parser("inbox"); p.add_argument("text"); p.set_defaults(fn=cmd_inbox)
+    p = sub.add_parser("serve-bot"); p.add_argument("--interval", type=int, default=5)
+    p.set_defaults(fn=cmd_serve_bot)
     p = sub.add_parser("docs"); p.add_argument("--force", action="store_true")
     p.set_defaults(fn=cmd_docs)
     p = sub.add_parser("deploy")

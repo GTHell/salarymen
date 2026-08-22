@@ -13,6 +13,7 @@ from pathlib import Path
 from ..board import Board
 from ..config import load_config
 from ..drivers import get_driver
+from ..events import EventLog
 
 BUILD_PROMPT = """You are a build worker on project "{name}" ({stack} stack).
 
@@ -64,14 +65,18 @@ def builder_tick(project_dir: str | Path) -> dict:
 
     passed = result.ok and "TASK_PASS" in (result.stdout or "")
     b = Board(d / cfg["project"]["board"]).load()
+    events = EventLog(d / ".state" / "events.jsonl")
     if passed:
         evidence = f"driver={driver.name} {result.duration_s}s exit={result.exit_code}"
         b.move(card.id, "DONE", evidence=evidence)
         outcome = "done"
+        events.emit("build.passed", card_id=card.id,
+                    duration_s=result.duration_s)
     else:
         fail_note = (result.stderr or result.stdout or "")[:200]
         b.move(card.id, "TODO", last_fail=fail_note)
         outcome = "failed->back to TODO"
+        events.emit("build.failed", card_id=card.id, note=fail_note)
     b.save()
 
     return {"ok": passed, "card": card.id, "outcome": outcome,

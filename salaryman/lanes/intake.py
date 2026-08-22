@@ -14,6 +14,7 @@ from pathlib import Path
 
 from ..board import Board
 from ..drivers import get_driver
+from ..events import EventLog
 
 DECOMPOSE_PROMPT = """You are the intake worker of an app-building team.
 The client wrote a vague request. Decompose it into 2-5 concrete build cards.
@@ -73,6 +74,8 @@ def process_inbox(board_path: str | Path, project_dir: str | Path,
 
     if created:
         board.save()
+        EventLog(Path(board_path).parent / ".state" / "events.jsonl").emit(
+            "intake.done", cards=created)
     return created
 
 
