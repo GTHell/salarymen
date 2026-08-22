@@ -2,7 +2,7 @@
 
 v0.1: Vercel via the vercel CLI (token from VERCEL_TOKEN env or ~/.vercel).
 Design: deploy is a lane, not a build step — workers never push to prod
-directly; humans (or a cron with approval) run `salarymen deploy`.
+directly; humans (or a cron with approval) run `salaryman deploy`.
 """
 from __future__ import annotations
 

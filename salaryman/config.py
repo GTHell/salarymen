@@ -16,7 +16,7 @@ from pathlib import Path
 try:
     import yaml
 except ImportError as e:  # pragma: no cover
-    raise SystemExit("salarymen requires PyYAML: pip install pyyaml") from e
+    raise SystemExit("salaryman requires PyYAML: pip install pyyaml") from e
 
 
 DEFAULTS: dict = {

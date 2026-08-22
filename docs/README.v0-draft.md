@@ -1,8 +1,8 @@
-# salarymen 🧑‍💼
+# salaryman 🧑‍💼
 
-**Self-hosted, open-source Lovable: hand a vague prompt to tireless AI salarymen, get a working product — then they keep improving it while you sleep.**
+**Self-hosted, open-source Lovable: hand a vague prompt to tireless AI salaryman, get a working product — then they keep improving it while you sleep.**
 
-You know how Claude Code / Codex are everywhere, but average devs still can't prompt like seniors? Salarymen fixes that. You don't prompt the system like an engineer — you talk to it like a client. The salarymen decompose your ask into a kanban board, scaffold from opinionated production-grade templates (never raw HTML/CSS), build it, verify it with screenshots and live probes attached to every card, and keep improving it on a schedule.
+You know how Claude Code / Codex are everywhere, but average devs still can't prompt like seniors? Salarymen fixes that. You don't prompt the system like an engineer — you talk to it like a client. The salaryman decompose your ask into a kanban board, scaffold from opinionated production-grade templates (never raw HTML/CSS), build it, verify it with screenshots and live probes attached to every card, and keep improving it on a schedule.
 
 ## Two mechanisms
 

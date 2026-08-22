@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from salarymen.config import load_config, validate, ConfigError, DEFAULTS
+from salaryman.config import load_config, validate, ConfigError, DEFAULTS
 
 
 def test_defaults_only(tmp_path):

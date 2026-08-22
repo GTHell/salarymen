@@ -3,7 +3,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "salarymen"
+name = "salaryman"
 version = "0.1.0"
 description = "Self-hosted open-source Lovable: tireless AI workers build, verify, and improve your app from vague prompts."
 readme = "README.md"
@@ -17,7 +17,7 @@ vision = ["playwright>=1.40"]
 dev = ["pytest>=8.0"]
 
 [project.scripts]
-salarymen = "salarymen.cli:main"
+salaryman = "salaryman.cli:main"
 
 [tool.setuptools.packages.find]
-include = ["salarymen*"]
+include = ["salaryman*"]

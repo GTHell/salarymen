@@ -3,8 +3,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from salarymen.board import Board
-from salarymen.features import backfill
+from salaryman.board import Board
+from salaryman.features import backfill
 
 
 def test_backfill_generates_docs(tmp_path):

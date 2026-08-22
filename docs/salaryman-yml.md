@@ -1,4 +1,4 @@
-# salarymen.yml — composition layer reference
+# salaryman.yml — composition layer reference
 
 Inspired by DeepSeek Harness (dsh) / Cordis: behavior = **ordered patch layers
 over an empty root**; later layers win per row. No central registry. The user's
@@ -29,7 +29,7 @@ lanes:                        # worker cadence (cron)
 
 workers:                      # which agent harness executes lanes
   driver: claude-code         # claude-code | codex | pi | opencode | dsh
-  model: any                  # resolved by driver; salarymen is model-agnostic
+  model: any                  # resolved by driver; salaryman is model-agnostic
 
 verify:                       # evidence contract — every DONE card must have these
   screenshots: true           # attached to card on pass/fail

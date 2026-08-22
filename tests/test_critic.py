@@ -5,8 +5,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from salarymen.board import Board
-from salarymen.lanes import critic as critic_mod
+from salaryman.board import Board
+from salaryman.lanes import critic as critic_mod
 
 
 def _serve():

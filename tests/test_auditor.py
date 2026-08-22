@@ -4,8 +4,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from salarymen.board import Board
-from salarymen.lanes.auditor import auditor_tick
+from salaryman.board import Board
+from salaryman.lanes.auditor import auditor_tick
 
 GIT_CFG = ["-c", "user.name=t", "-c", "user.email=t@t"]
 

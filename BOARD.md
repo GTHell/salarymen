@@ -1,4 +1,4 @@
-# BOARD — salarymen (dogfood: this repo builds itself)
+# BOARD — salaryman (dogfood: this repo builds itself)
 
 <!-- The project dogfoods its own loop. Cards below are the v0.1 build plan. -->
 

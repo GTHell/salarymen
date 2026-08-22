@@ -1,7 +1,7 @@
 # BOARD.md — kanban format spec
 
 The board is plain markdown. Parseable by humans, git, GitHub Projects sync,
-and the salarymen workers. One file, four sections = four columns.
+and the salaryman workers. One file, four sections = four columns.
 
 ```markdown
 # BOARD — <project name>

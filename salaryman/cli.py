@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""salarymen — self-hosted app-building loop.
+"""salaryman — self-hosted app-building loop.
 
-  salarymen init <dir>     scaffold a project + seed the board
-  salarymen tick <lane>    run one lane phase (intake|builder|critic|auditor)
-  salarymen status         board summary
-  salarymen inbox "<text>" add a raw prompt to INBOX (the backfill door)
+  salaryman init <dir>     scaffold a project + seed the board
+  salaryman tick <lane>    run one lane phase (intake|builder|critic|auditor)
+  salaryman status         board summary
+  salaryman inbox "<text>" add a raw prompt to INBOX (the backfill door)
 """
 from __future__ import annotations
 
@@ -15,8 +15,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from salarymen.board import Board          # noqa: E402
-from salarymen.config import load_config   # noqa: E402
+from salaryman.board import Board          # noqa: E402
+from salaryman.config import load_config   # noqa: E402
 
 BOARD_SEED = """# BOARD — {name}
 
@@ -82,10 +82,10 @@ def cmd_init(args) -> int:
     if not board.exists():
         board.write_text(BOARD_SEED.format(name=target.name), encoding="utf-8")
     cfg = load_config(target)
-    print(f"✓ salarymen project '{cfg['project']['name']}' at {target}")
+    print(f"✓ salaryman project '{cfg['project']['name']}' at {target}")
     print(f"  stack: {cfg['stack']['scaffold']} · db: {cfg['engine']['db']} · deploy: {cfg['engine']['deploy']}")
     print(f"  board: {board}")
-    print("next: salarymen inbox \"build me ...\" then salarymen tick intake")
+    print("next: salaryman inbox \"build me ...\" then salaryman tick intake")
     return 0
 
 
@@ -93,24 +93,24 @@ def cmd_tick(args) -> int:
     d = Path.cwd()
     lane = args.lane
     if lane == "intake":
-        from salarymen.lanes.intake import process_inbox
+        from salaryman.lanes.intake import process_inbox
         created = process_inbox(d / "BOARD.md", d)
         for c in created:
             print(f"  + {c['id']} ({c['size']}) from:{c['from']} — {c['title']}")
         print(f"intake: {len(created)} card(s) created")
         return 0
     if lane == "builder":
-        from salarymen.lanes.builder import builder_tick
+        from salaryman.lanes.builder import builder_tick
         res = builder_tick(d)
         print(res)
         return 0 if res.get("ok") else 1
     if lane == "critic":
-        from salarymen.lanes.critic import critic_tick
+        from salaryman.lanes.critic import critic_tick
         res = critic_tick(d, live_urls=[args.url] if args.url else None)
         print(res)
         return 0
     if lane == "auditor":
-        from salarymen.lanes.auditor import auditor_tick
+        from salaryman.lanes.auditor import auditor_tick
         res = auditor_tick(d)
         print(res)
         return 0
@@ -130,7 +130,7 @@ def cmd_status(_) -> int:
 
 
 def cmd_deploy(args) -> int:
-    from salarymen.deploy import deploy
+    from salaryman.deploy import deploy
     res = deploy(Path.cwd(), prod=args.prod)
     if res["ok"]:
         print(f"🚀 live: {res.get('url', '(url in output above)')} ({res['secs']}s)")
@@ -140,7 +140,7 @@ def cmd_deploy(args) -> int:
 
 
 def cmd_docs(args) -> int:
-    from salarymen.features import backfill
+    from salaryman.features import backfill
     cfg = load_config(Path.cwd())
     written = backfill(Path.cwd() / cfg["project"]["board"],
                        Path.cwd() / "docs" / "features", force=args.force)
@@ -158,12 +158,12 @@ def cmd_inbox(args) -> int:
     card = b.add_inbox(f"p{n:03d}", args.text)
     b.save()
     print(f"✓ INBOX {card.id}: \"{args.text}\"")
-    print("next: salarymen tick intake")
+    print("next: salaryman tick intake")
     return 0
 
 
 def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(prog="salarymen")
+    ap = argparse.ArgumentParser(prog="salaryman")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     p = sub.add_parser("init"); p.add_argument("dir")
@@ -182,7 +182,7 @@ def main(argv=None) -> int:
     try:
         return args.fn(args)
     except FileNotFoundError as e:
-        print(f"error: {e} — run 'salarymen init' first?", file=sys.stderr)
+        print(f"error: {e} — run 'salaryman init' first?", file=sys.stderr)
         return 1
 
 
