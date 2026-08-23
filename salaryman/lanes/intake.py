@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import re
+from subprocess import TimeoutExpired
 import uuid
 from pathlib import Path
 
@@ -52,7 +53,10 @@ def process_inbox(board_path: str | Path, project_dir: str | Path,
             continue  # already decomposed
 
         brief = DECOMPOSE_PROMPT.format(prompt=receipt.raw_text)
-        result = driver.run(brief, cwd=str(project_dir), timeout_s=300)
+        try:
+            result = driver.run(brief, cwd=str(project_dir), timeout_s=600)
+        except TimeoutExpired:
+            continue  # receipt stays in INBOX; next tick retries
         cards_data = _extract_cards(result.stdout)
         if not cards_data:
             continue

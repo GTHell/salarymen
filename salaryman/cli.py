@@ -129,6 +129,24 @@ def cmd_status(_) -> int:
     return 0
 
 
+def cmd_serve_web(args) -> int:
+    from salaryman.serve_web import serve_web
+    cfg = load_config(Path.cwd())
+    preview = args.preview or "http://localhost:3457"
+    serve_web(Path.cwd(), port=args.port, preview_url=preview)
+    return 0
+
+
+def cmd_deploy(args) -> int:
+    from salaryman.deploy import deploy
+    res = deploy(Path.cwd(), prod=args.prod)
+    if res["ok"]:
+        print(f"live: {res.get('url', '(url above)')} ({res['secs']}s)")
+        return 0
+    print(f"deploy failed: {res.get('error')}", file=sys.stderr)
+    return 1
+
+
 def cmd_serve_bot(args) -> int:
     from salaryman.serve_bot import serve
     import os
@@ -184,6 +202,9 @@ def main(argv=None) -> int:
     p.add_argument("--url", help="live URL for critic probes"); p.set_defaults(fn=cmd_tick)
     sub.add_parser("status").set_defaults(fn=cmd_status)
     p = sub.add_parser("inbox"); p.add_argument("text"); p.set_defaults(fn=cmd_inbox)
+    p = sub.add_parser("serve-web"); p.add_argument("--port", type=int, default=3460)
+    p.add_argument("--preview", help="URL shown in the live-preview iframe")
+    p.set_defaults(fn=cmd_serve_web)
     p = sub.add_parser("serve-bot"); p.add_argument("--interval", type=int, default=5)
     p.set_defaults(fn=cmd_serve_bot)
     p = sub.add_parser("docs"); p.add_argument("--force", action="store_true")
